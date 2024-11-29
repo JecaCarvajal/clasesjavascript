@@ -1,14 +1,36 @@
 const gameBoard = document.querySelector("#gameboard");
 
+let go = "circle";
+
 const startCells = ["","","","","","","","",""];
 
-numeros.forEach((numero, index) => {
-    console.log(numero * 2)
-    if( numero % 2 == 0){
-        console.log("Numero par " + numero);
+function createBoard() {   
+    startCells.forEach((_cell, index) => {
+        const cellElement = document.createElement("div");
+        cellElement.classList.add("square");
+        cellElement.id = index;
+        cellElement.addEventListener("click", addGo)
+        gameBoard.append(cellElement);
+    }); 
+}
+
+createBoard();
+
+function addGo(event) {
+    const goDisplay = document.createElement("div");
+    goDisplay.classList.add(go);
+    
+    if(go === "circle") {
+        go = "cross";
     }
-    console.log(index);
-});
+    else {
+        go = "circle"
+    }
+
+    event.target.append(goDisplay);
+    event.target.removeEventListener("click", addGo);
+}
+
 
 
 
