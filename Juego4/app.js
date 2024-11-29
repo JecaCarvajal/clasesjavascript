@@ -1,4 +1,5 @@
 const gameBoard = document.querySelector("#gameboard");
+const info = document.getElementById("info");
 
 let go = "circle";
 
@@ -11,7 +12,7 @@ function createBoard() {
         cellElement.id = index;
         cellElement.addEventListener("click", addGo)
         gameBoard.append(cellElement);
-    }); 
+    });
 }
 
 createBoard();
@@ -19,16 +20,39 @@ createBoard();
 function addGo(event) {
     const goDisplay = document.createElement("div");
     goDisplay.classList.add(go);
-    
-    if(go === "circle") {
-        go = "cross";
-    }
-    else {
-        go = "circle"
-    }
-
+    // if mas corto 
+    go = go === "circle" ? "cross" : "circle";    
     event.target.append(goDisplay);
     event.target.removeEventListener("click", addGo);
+    checkScore();
+}
+
+
+function checkScore()
+{
+    const allSqueares = document.querySelectorAll(".square");
+
+    const winningCombos = [
+        [0,1,2], [3,4,5], [6,7,8],
+        [0,3,6], [1,4,7], [2,5,8],
+        [0,4,8], [2,4,6]
+    ]
+
+    winningCombos.forEach(array => {
+        const circleWinds = array.every(cell => allSqueares[cell].firstChild?.classList.contains("circle"))
+        if(circleWinds) {
+            info.innerHTML = "Circle Wins!";
+            allSqueares.forEach(square => square.replaceWith(square.cloneNode(true)));
+        }
+    })
+
+    winningCombos.forEach(array => {
+        const circleWinds = array.every(cell => allSqueares[cell].firstChild?.classList.contains("cross"))
+        if(circleWinds) {
+            info.innerHTML = "Cross Wins!";
+            allSqueares.forEach(square => square.replaceWith(square.cloneNode(true)))
+        }
+    })
 }
 
 
