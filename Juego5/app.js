@@ -5,7 +5,7 @@ const squareNumbers = 16;
 
 let go = "circle";
 
-const startCells = [];
+let startCells = [];
 
 play.addEventListener("click", () => {
     inicialSound.play();
@@ -14,13 +14,15 @@ play.addEventListener("click", () => {
     {
         squares.forEach(square => square.remove());
     }
-    CreateSquares();
+    createSquares();
     createBoard();
 })
 
-function CreateSquares()
+function createSquares()
 {
+    startCells = [];
     for (let index = 0; index < squareNumbers; index++) {
+
         startCells.push("");    
     }
 }
@@ -40,15 +42,7 @@ function createBoard() {
 
 function addGo(event) {
     const goDisplay = document.createElement("div");
-    goDisplay.classList.add(go);
-    
-    if(go === "circle") {
-        go = "cross";
-    }
-    else {
-        go = "circle"
-    }
-
+    goDisplay.classList.add("circle");
     event.target.append(goDisplay);
     event.target.removeEventListener("click", addGo);
 }
