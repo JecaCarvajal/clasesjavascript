@@ -14,8 +14,7 @@ let randomNumbers = new Set();
 play.addEventListener("click", () => {
     inicialSound.play();
     const squares = document.querySelectorAll(".square");
-    if(squares.length)
-    {
+    if(squares.length) {
         squares.forEach(square => square.remove());
     }
     createSquares();
@@ -51,8 +50,6 @@ function createBoard() {
         gameBoard.append(cellElement);
     }); 
 }
-
-
 
 function addGo(event) {
     const goDisplay = document.createElement("div");
