@@ -1,18 +1,25 @@
 //Pasos del juego
-// 1.Tenemos crear un arreglo que me indique donde estan las bombas de forma aleatoria *
-// 2.
+// 1. Si la posicion seleccionada esta dentro de las posiciones de las bombas(randomNumbers), 
+    //se pinta la bomba y poner el sonido de la bomba y 
+    //eliminar los listener
+// 2. Si no cae en la bomba, tienen que agregar la clase circulo y mostrar en pantalla una sumatoria de puntos 
+
 
 
 const gameBoard = document.querySelector("#gameboard");
 const play = document.getElementById("play");
 const inicialSound = document.getElementById("inicial");
+const bombSound = document.getElementById("bombsound");
+const info = document.getElementById("info");
+const puntos = document.getElementById("puntos");
 const squareNumbers = 16;
 
 let startCells = [];
 let randomNumbers = new Set();
+let contandor = 0;
 
 play.addEventListener("click", () => {
-    inicialSound.play();
+    //inicialSound.play();
     const squares = document.querySelectorAll(".square");
     if(squares.length) {
         squares.forEach(square => square.remove());
@@ -20,6 +27,9 @@ play.addEventListener("click", () => {
     createSquares();
     createRandomNumber();
     createBoard();
+    info.textContent = "";
+    puntos.textContent = "";
+    contandor = 0;
 })
 
 function createSquares(){
@@ -37,7 +47,7 @@ function createRandomNumber(){
     while (randomNumbers.size < 5) {
         const randomNumber = Math.floor(Math.random()*16);
         randomNumbers.add(randomNumber);
-    }    
+    }
 } 
 
 
@@ -52,15 +62,23 @@ function createBoard() {
 }
 
 function addGo(event) {
+
+    const allSqueares = document.querySelectorAll(".square");
     const goDisplay = document.createElement("div");
-    goDisplay.classList.add("bomb");
-    goDisplay.textContent = "💣";
-    event.target.append(goDisplay);
+    
+    if(randomNumbers.has(parseInt(event.target.id))) {
+       bombSound.play();
+       goDisplay.classList.add("bomb");
+       goDisplay.textContent = "💣";
+       event.target.append(goDisplay);
+       allSqueares.forEach(square => square.replaceWith(square.cloneNode(true)));
+       info.textContent = "Haz perdido muchacho(a)";
+    } else {
+       goDisplay.classList.add("circle");
+       contandor = contandor + 1;
+       puntos.textContent = `Puntos : ${contandor}`;
+       event.target.append(goDisplay);  
+    }
+    
     event.target.removeEventListener("click", addGo);
 }
-
-
-
-
-
-
