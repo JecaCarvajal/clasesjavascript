@@ -19,7 +19,7 @@ let randomNumbers = new Set();
 let contandor = 0;
 
 play.addEventListener("click", () => {
-    //inicialSound.play();
+    inicialSound.play();
     const squares = document.querySelectorAll(".square");
     if(squares.length) {
         squares.forEach(square => square.remove());
